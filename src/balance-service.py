@@ -3,6 +3,10 @@ from flask import Flask, request, jsonify, abort
 from tinydb import TinyDB, where
 
 
+# env
+SERVICE_HOST = 'localhost'
+SERVICE_PORT = 5001
+
 # init API service
 service = Flask(__name__)
 
@@ -67,4 +71,4 @@ def handle_error_400(e):
 
 # main
 if __name__ == '__main__':
-    service.run()
+    service.run(host=SERVICE_HOST, port=SERVICE_PORT)
