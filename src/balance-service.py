@@ -4,7 +4,7 @@ from tinydb import TinyDB, where
 
 
 # env
-SERVICE_HOST = 'localhost'
+SERVICE_HOST = '127.0.0.1'
 SERVICE_PORT = 5001
 
 # init API service
