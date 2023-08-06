@@ -16,16 +16,24 @@ def get_balance_history():
     """
     Get balance history.
     """
-    date = request.args.get('date')
-    if not date:
-        # get all records
-        return jsonify(db.all())
-    else:
-        # get single record by date
-        r = db.search(where('date') == date)
-        if r:
-            return jsonify(r)
-        abort(400, description='Record with such date not found!')
+    records = db.all()
+    if not records:
+        abort(400, description='No records!')
+    records_sorted = sorted(records, key=lambda x: x['date'])
+    return jsonify(records_sorted)
+
+
+# GET /balance-history/latest
+@service.route('/balance-history/latest', methods=['GET'])
+def get_balance_history_latest():
+    """
+    Get the latest record from balance history.
+    """
+    records = db.all()
+    if not records:
+        abort(400, description='No records!')
+    latest = sorted(records, key=lambda x: x['date'], reverse=True)[0]
+    return jsonify(latest)
 
 
 # POST /balance-history
@@ -36,7 +44,7 @@ def update_balance_history():
     """
     data = json.loads(request.data)
     if not data:
-        abort(400, description='Request data is missing!')
+        abort(400, description='Request data missing!')
     db.upsert(data, where('date') == data['date'])
     return jsonify(data)
 
@@ -48,12 +56,12 @@ def delete_balance_history():
     Delete balance history.
     """
     db.truncate()
-    return db.all()
+    return jsonify(db.all())
 
 
 # Error handler 400 Bad Request
 @service.errorhandler(400)
-def error_handler_400(e):
+def handle_error_400(e):
     return jsonify(error=str(e)), 400
 
 
