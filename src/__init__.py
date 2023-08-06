@@ -1,1 +1,1 @@
-__all__ = ['balance']
+__all__ = ['balance-service']
