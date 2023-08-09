@@ -4,8 +4,8 @@ from tinydb import TinyDB, where
 
 
 # env
-SERVICE_HOST = '127.0.0.1'
-SERVICE_PORT = 5001
+SERVICE_HOST = '0.0.0.0'
+SERVICE_PORT = 3000
 
 # init API service
 service = Flask(__name__)
